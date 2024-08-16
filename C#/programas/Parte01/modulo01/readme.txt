@@ -1,0 +1,1 @@
+Nesse modulo vimos tudo de estrutura sequencial como entrada de dados (Console.WriteLine()), processamento de dados(ToString, concatenação), e saida de dados (Console.ReadLine())
