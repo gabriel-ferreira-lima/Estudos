@@ -4,7 +4,6 @@ using xadrez_console.Tabuleiro.Entities.Enums;
 namespace xadrez_console.Xadrez.Entities {
 
     internal class Rei : Peca {
-
         private PartidaDeXadrez _partida;
 
         public Rei() {
@@ -27,6 +26,7 @@ namespace xadrez_console.Xadrez.Entities {
             Peca p = Tab.Peca(pos);
             return p != null && p is Torre && p.Cor == Cor && p.QteMovimentos == 0;
         }
+
         public override bool[,] MovimentosPossiveis() {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas];
 

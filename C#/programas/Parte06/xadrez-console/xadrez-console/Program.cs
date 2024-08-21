@@ -3,8 +3,10 @@ using xadrez_console.Tabuleiro.Entities.Exceptions;
 using xadrez_console.Xadrez.Entities;
 
 namespace xadrez_console {
+
     internal class Program {
-        static void Main(string[] args) {
+
+        private static void Main(string[] args) {
             try {
                 PartidaDeXadrez partida = new PartidaDeXadrez();
 
