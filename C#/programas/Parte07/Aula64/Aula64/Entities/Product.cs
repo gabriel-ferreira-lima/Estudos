@@ -1,4 +1,6 @@
-﻿namespace Aula64.Entities {
+﻿using System.Globalization;
+
+namespace Aula64.Entities {
     internal class Product {
 
         public string Name { get; set; }
@@ -15,8 +17,12 @@
         }
 
 
-        public double sumValue() {
-            return Value + Quantity;
+        public double SumValue() {
+            return Value * Quantity;
+        }
+
+        public override string ToString() {
+            return Name + "," + SumValue().ToString("f2", CultureInfo.InvariantCulture);
         }
     }
 }
