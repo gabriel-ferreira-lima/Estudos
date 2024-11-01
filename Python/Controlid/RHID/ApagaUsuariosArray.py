@@ -17,7 +17,7 @@ headers = {
     'authorization': 'Bearer ' + login_data
 }
 
-lista = [6476, 6477, 6478, 6479, 6480, 6481, 6482, 6483, 6484, 6485, 6486,6487, 6488, 6489, 6490, 6491, 6492]
+lista = []
 
 for n in range(len(lista)):
     request = requests.get(f'{link}/person/{lista[n]}', headers=headers)
