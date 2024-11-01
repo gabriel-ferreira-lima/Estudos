@@ -1,0 +1,15 @@
+string de conexão do meu banco
+Server=localhost,1433;Database=Curso;User ID=sa;Password=Gordaojoga10
+
+
+como matar qualquer conexão do banco e apagar ele
+use [master];
+
+DECLARE @kill varchar(8000) = '';
+select @kill = @kill + 'kill ' + CONVERT(varchar(5), session_id)
+FROM sys.dm_exec_sessions
+WHERE database_id = db_id('nome_do_meu_banco')
+
+EXEC(@kill);
+
+DROP DATABASE [nome_do_meu_banco]
