@@ -1,3 +1,4 @@
+from time import sleep
 import requests
 import socket
 import base64
@@ -67,7 +68,7 @@ def Criaservidor(ip, sessao):
             {
                 "id" : -2,
                 "name": "Flask Server",
-                "ip": f"{ipServidor}:8002"
+                "ip": f"{ipServidor}:3035"
             }
         ]
     })
@@ -134,7 +135,7 @@ responseAutorizado = {
         "user_image": True,
         "portal_id": 1,
         "actions": [
-            {"action": "sec_box", "parameters": "id=65793, reason=1"}
+            {"action": "catra", "parameters": "allow=both"}
         ]
     }
 }
@@ -148,6 +149,19 @@ responseNaoAutorizado = {
         "portal_id": 1,
         "actions": []
     }
+}
+
+responseTeste = {
+  "result": {
+    "event": 14,
+    "user_id": 0,
+    "user_name": "",
+    "user_image": False,
+    "user_image_hash": "",
+    "portal_id": 1,
+    "message": "",
+    "actions": None
+  }
 }
 
 
@@ -168,7 +182,7 @@ def new_user_identified():
         user_id = request.form.get('user_id', type=int)
         duress = request.form.get('duress', type=int)
         face_mask = request.form.get('face_mask', type=lambda x: x.lower() == 'true')
-        time = request.form.get('time', type=int)
+        timestamp = request.form.get('time', type=int)
         portal_id = request.form.get('portal_id', type=int)
         uuid = request.form.get('uuid', type=str)
         block_read_data = request.form.get('block_read_data', type=str)
@@ -183,13 +197,14 @@ def new_user_identified():
         confidence = request.form.get('confidence', type=int)
         log_type_id = request.form.get('log_type_id', type=int)
 
-        # Responda com base no user_id
         if user_id > 0:
-            return jsonify(responseAutorizado), 200, print(f"Autorizado")
+            print("Acesso autorizado")
+            return jsonify(responseTeste), 200
         else:
-            return jsonify(responseNaoAutorizado), 200, print("Acesso negado")
+            print("Acesso negado")
+            return jsonify(responseTeste), 200
 
-    except exception as e :
+    except Exception as e :
         return jsonify({"error": str(e)}), 500
 
 
@@ -378,9 +393,10 @@ def face_create():
     except Exception as e:
         return "Internal Server Error", 500
 
-
-# API Monitor
+@app.route('/api/notifications/access_photo', methods=['POST'])
+def access_photo():
+    return jsonify(), 200
 
 if __name__ == '__main__':
     InsereDadosDoDispositivo()
-    app.run(host='0.0.0.0', port=8002)
+    app.run(host='0.0.0.0', port=3035)

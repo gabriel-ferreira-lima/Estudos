@@ -41,7 +41,7 @@ CREATE TABLE [UserRole] (
 GO
 
 CREATE TABLE [Category] (
-    [Id] INT NOT NULL,
+    [Id] INT NOT NULL IDENTITY(1, 1),
     [Name] VARCHAR(80) NOT NULL,
     [Slug] VARCHAR(80) NOT NULL,
 
@@ -73,7 +73,7 @@ GO
 -- AQUI PRA BAIXO NÃO RODEI AINDA
 
 CREATE TABLE [Tag] (
-    [Id] INT NOT NULL,
+    [Id] INT NOT NULL IDENTITY(1,1),
     [Name] VARCHAR(80) NOT NULL,
     [Slug] VARCHAR(80) NOT NULL,
 

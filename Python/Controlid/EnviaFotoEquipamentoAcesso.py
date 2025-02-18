@@ -2,13 +2,13 @@ import base64
 import os
 import requests
 
-conteudo = os.listdir('C:/Users/gabri/OneDrive/Área de Trabalho/Controlid/Ajuda/Integração/Acesso/images10k/images10k')
+conteudo = os.listdir('C:/Users/gabri/Desktop/Controlid/Ajuda/Integração/Acesso/10mil/pkg')
 baseFotos = []
 nome_numero = 1
 id_usuario = 1
 
 for n in range(len(conteudo)):
-    with open(f"C:/Users/gabri/OneDrive/Área de Trabalho/Controlid/Ajuda/Integração/Acesso/images10k/images10k/{conteudo[n]}", "rb") as imageFile:
+    with open(f"C:/Users/gabri/Desktop/Controlid/Ajuda/Integração/Acesso/10mil/pkg/{conteudo[n]}", "rb") as imageFile:
         string = base64.b64encode(imageFile.read())
         decodado = string.decode()
     baseFotos.append(decodado)
@@ -48,6 +48,7 @@ for n in range(len(baseFotos)):
         }
     ]
     })
+
     print(f'{resposta1.status_code} <-foto')
     id_usuario += 1
     

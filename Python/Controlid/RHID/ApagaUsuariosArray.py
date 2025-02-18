@@ -1,22 +1,19 @@
 import requests
-import json
 
 link = 'https://rhid.com.br/v2/api.svc'
-user = 'implantacao@controlid.com'
-password = 'Controlid123'
-domain = 'SOLVIESSENCIS-CLOUD'
+user = 'integracao@controlid.com.br'
+password = 'Cid1836@'
+domain = ''
 
 # fazendo login no RHID
 request = requests.post(f'{link}/login', json={
     'email': user,
     'password': password,
-    'domain': domain
 })
 login_data = request.json()['accessToken']
 headers = {
     'authorization': 'Bearer ' + login_data
 }
-
 lista = []
 
 for n in range(len(lista)):

@@ -31,18 +31,6 @@ responseNaoAutorizado = {
     }
 }
 
-"""
-responseNaoAutorizado2 = {
-    "result":{
-        "event":6,
-        "portal_id":1,
-        "user_id":0,
-        "user_image":False,
-        "user_name":"Usu\u00c3\u00a1rio n\u00c3\u00a3o identificado"
-    }
-}
-"""
-
 # APIs do modo online
 @app.route('/device_is_alive.fcgi', methods=['POST'])
 def device_is_alive():
@@ -80,7 +68,6 @@ def new_user_identified():
             print(f"Autorizado")
             return jsonify(responseAutorizado), 200
         else:
-            time.sleep(10)
             print("Acesso negado")
             return jsonify(responseNaoAutorizado), 200
 
@@ -271,6 +258,3 @@ def face_create():
         return jsonify(), 200, print(f"face recebida: {face}")
     except Exception as e:
         return "Internal Server Error", 500
-
-
-# API Monitor

@@ -1,5 +1,5 @@
 string de conexão do meu banco
-Server=localhost,1433;Database=Curso;User ID=sa;Password=Gordaojoga10
+Server=localhost,1433;Database=Balta;User ID=sa;Password=Gordaojoga10;Trusted_Connection=False; TrustServerCertificate=True;
 
 
 como matar qualquer conexão do banco e apagar ele

@@ -16,7 +16,7 @@ print(login.reason)
 login_data = login.json()
 sessao = login_data['session']
 
-for n in range(10001):
+for n in range(100000):
     resposta = requests.post(f"http://192.168.0.129/create_objects.fcgi?session={sessao}", json={
         "object": "users",
         "values": [
