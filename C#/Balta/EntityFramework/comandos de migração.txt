@@ -1,0 +1,7 @@
+dotnet ef migrations add UmNomeDeMigracao - Adiciona uma nova migração a ser feita
+
+dotnet ef database update - atualiza o banco com a ultima migração feita
+
+dotnet ef migrations remote - remove a ultima migração criada
+
+dotnet ef migrations script -o ./script.sql - Gera o script do banco

@@ -1,7 +1,10 @@
 import base64
 import os
+from datetime import datetime
 import requests
 
+
+ip = "http://192.168.0.128"
 conteudo = os.listdir('C:/Users/gabri/Desktop/Controlid/Ajuda/Integração/Acesso/10mil/pkg')
 baseFotos = []
 nome_numero = 1
@@ -13,7 +16,7 @@ for n in range(len(conteudo)):
         decodado = string.decode()
     baseFotos.append(decodado)
 
-login = requests.post("http://192.168.0.129/login.fcgi", json={
+login = requests.post(f"{ip}/login.fcgi", json={
     "login": "admin",
     "password": "admin"
 })
@@ -23,7 +26,7 @@ login_data = login.json()
 sessao = login_data['session']
 
 for n in range(len(baseFotos)):
-    resposta = requests.post(f"http://192.168.0.129/create_objects.fcgi?session={sessao}", json={
+    resposta = requests.post(f"{ip}/create_objects.fcgi?session={sessao}", json={
         "object": "users",
         "values": [
             {
@@ -37,13 +40,14 @@ for n in range(len(baseFotos)):
     })
     print(f'{resposta.status_code} <-usuario')
     nome_numero += 1
+    horario = int(datetime.now().timestamp())
 
-    resposta1 = requests.post(f"http://192.168.0.129/user_set_image_list.fcgi?session={sessao}", json={
+    resposta1 = requests.post(f"{ip}/user_set_image_list.fcgi?session={sessao}", json={
     "match": False,
     "user_images": [
         {
             "user_id": id_usuario,
-            "timestamp": 1624997563,
+            "timestamp": horario,
             "image": f"{baseFotos[n]}"
         }
     ]

@@ -22,8 +22,8 @@ def InsereDadosDoDispositivo():
     ip = input("IP do dispositivo: ")
     usuario = input("Usuário do dispositivo: ")
     senha = input("Senha do dispositivo: ")
-    tipoDispositivo = input("digital 1 / facial 2: ")
-    if tipoDispositivo == '1' or tipoDispositivo == '2':
+    tipoDispositivo = input("digital 1 / facial 2 / não informar 3: ")
+    if tipoDispositivo == '1' or tipoDispositivo == '2' or tipoDispositivo == '3':
         pass
     else :
         print("Insira um tipo de dispositivo Valido...")
@@ -33,7 +33,10 @@ def InsereDadosDoDispositivo():
     if sessao:
         Criaservidor(ip, sessao)
         CadastraUsuario(ip, sessao)
-        CadastraCredencial(ip, sessao, tipoDispositivo)
+        if tipoDispositivo == '1' or tipoDispositivo == '2':
+            CadastraCredencial(ip, sessao, tipoDispositivo)
+        else :
+            pass
 
 def FazerLogin(ip, usuario, senha):
     try:
@@ -142,10 +145,10 @@ responseAutorizado = {
 
 responseNaoAutorizado = {
     "result": {
-        "event": 3,
-        "user_id": 0,
-        "user_name": "",
-        "user_image": False,
+        "event": 6,
+        "user_id": 1,
+        "user_name": "não autorizado",
+        "user_image": True,
         "portal_id": 1,
         "actions": []
     }
@@ -199,10 +202,10 @@ def new_user_identified():
 
         if user_id > 0:
             print("Acesso autorizado")
-            return jsonify(responseTeste), 200
+            return jsonify(responseAutorizado), 200
         else:
             print("Acesso negado")
-            return jsonify(responseTeste), 200
+            return jsonify(responseAutorizado), 200
 
     except Exception as e :
         return jsonify({"error": str(e)}), 500
