@@ -2,13 +2,15 @@
 using Aula03Blog.Extensions;
 using Aula03Blog.Models;
 using Aula03Blog.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aula03Blog.Controllers {
     [ApiController]
+    [Authorize(Roles = "user")] // isso aqui obriga toda minha classe a usar o token de autenticação
     public class CategoryController : ControllerBase {
-
+        
         [HttpGet("v1/categories")]
         public async Task<IActionResult> GetAsync(
             [FromServices] BlogDataContext context) {
@@ -25,7 +27,6 @@ namespace Aula03Blog.Controllers {
         public async Task<IActionResult> GetByIdAsync(
             [FromRoute] int id,
             [FromServices] BlogDataContext context) {
-
             try {
                 var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -44,7 +45,6 @@ namespace Aula03Blog.Controllers {
         public async Task<IActionResult> PostAsync(
             [FromBody] EditorCategoryViewModel model,
             [FromServices] BlogDataContext context) {
-
             if (!ModelState.IsValid) {
                 return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
             }
@@ -60,6 +60,11 @@ namespace Aula03Blog.Controllers {
                 return Created($"v1/categories/{category.Id}", new ResultViewModel<Category>(category));
             }
             catch (DbUpdateException e) {
+                if (e.InnerException?.Message.Contains(
+                        "Cannot insert duplicate key row in object 'dbo.Category' with unique index 'IX_Category_Slug'. The duplicate key value is") == true) {
+                    return StatusCode(400, new ResultViewModel<Category>("Não é possivel inserir este Slug"));
+                }
+
                 return StatusCode(500, new ResultViewModel<Category>("05XE9 - Falha interna no servidor"));
             }
             catch (Exception e) {
@@ -72,7 +77,6 @@ namespace Aula03Blog.Controllers {
             [FromRoute] int id,
             [FromBody] EditorCategoryViewModel model,
             [FromServices] BlogDataContext context) {
-
             if (!ModelState.IsValid) {
                 return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
             }
@@ -93,6 +97,10 @@ namespace Aula03Blog.Controllers {
                 return Ok(new ResultViewModel<Category>(category));
             }
             catch (DbUpdateException e) {
+                if (e.InnerException?.Message.Contains(
+                        "Cannot insert duplicate key row in object 'dbo.Category' with unique index 'IX_Category_Slug'. The duplicate key value is") == true) {
+                    return StatusCode(400, new ResultViewModel<Category>("Não é possivel inserir este Slug"));
+                }
                 return StatusCode(500, new ResultViewModel<Category>("05X08 - Falha interna no servidor"));
             }
             catch (Exception e) {
@@ -102,8 +110,8 @@ namespace Aula03Blog.Controllers {
 
         [HttpDelete("v1/categories/{id:int}")]
         public async Task<IActionResult> DeleteAsync(
-           [FromRoute] int id,
-           [FromServices] BlogDataContext context) {
+            [FromRoute] int id,
+            [FromServices] BlogDataContext context) {
             try {
                 var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -123,6 +131,5 @@ namespace Aula03Blog.Controllers {
                 return StatusCode(500, new ResultViewModel<Category>($"05X12 - Não foi possivel Excluir o usuario"));
             }
         }
-
     }
 }

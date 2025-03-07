@@ -37,6 +37,7 @@ namespace Aula03Blog.Data.Mappings
             builder
                 .HasOne(x => x.Author)
                 .WithMany(x => x.Posts)
+                //.HasForeignKey(x => x.AutorDoPost) com isso aqui posso colocar o nome que eu quiser na tabela, se não colocar ele vai definir como AuthorId
                 .HasConstraintName("FK_Post_Author")
                 .OnDelete(DeleteBehavior.Cascade);
 

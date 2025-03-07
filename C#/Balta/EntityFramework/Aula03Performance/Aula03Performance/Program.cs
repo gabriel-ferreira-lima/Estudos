@@ -22,7 +22,6 @@ namespace Aula03Performance {
 
         public static void Main(string[] args) {
             using var context = new BlogDataContext();
-
             /*
             // aplicando conceito de Lazy Loading não recomendado, ao colocar
             // a lista de tags como virtual dentro da classe de post eu consigo
@@ -66,18 +65,15 @@ namespace Aula03Performance {
                 .Include(x => x.Author)
                     .ThenInclude(x => x.Roles);
             */
-
-            /*
+            
             // criando query pura acessar a classe post PostWithTagsCount e o blogDataContext
             var posts = context.PostWithTagsCounts.ToList();
-
             foreach (var post in posts) {
                 Console.WriteLine(post.Count);
             }
-            */
+            
         }
-
-
+        
         /*
         // criando conceito de paginação
         public static List<Post> GetPosts(BlogDataContext context, int skip = 0, int take = 30) {
