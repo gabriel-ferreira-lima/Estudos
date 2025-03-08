@@ -23,14 +23,15 @@ namespace Aula03Blog.Controllers {
                 Name = model.Name,
                 Email = model.Email,
                 PasswordHash = model.Password,
-                Slug = model.Email.Replace("@", "-").Replace(".", "-")
+                Slug = model.Email.Replace("@", "-").Replace(".", "-"),
             };
-
+            
             // var password = PasswordGenerator.Generate(25, true, true); //biblioteca open source que gera uma senha forte
             user.PasswordHash = PasswordHasher.Hash(model.Password); // a biblioteca tambem encripta a senha posso usar tanto a variavel criada na linha acima como
                                                                      // fazer o usuario digitar, colocando as regras no RegisterViewModel.cs
 
             try {
+                
                 await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
 
