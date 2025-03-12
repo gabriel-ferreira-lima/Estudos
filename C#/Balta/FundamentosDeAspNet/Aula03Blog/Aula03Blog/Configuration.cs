@@ -10,9 +10,7 @@
         // ver na pasta attributes e na homeController
         public static string ApiKeyName { get; set; } = "APIKey";
         public static string ApiKey { get; set; } = "curso_api_IlTevUM/z0ey3NwCV/unWg==";
-        
-        
-        
+        public static string Image { get; set; } = "https://localhost:0000/images/";
         public static SmtpConfiguration Smtp { get; set; } = new ();
         public class SmtpConfiguration {
             

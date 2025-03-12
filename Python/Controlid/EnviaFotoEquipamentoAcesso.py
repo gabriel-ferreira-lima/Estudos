@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 
 
-ip = "http://192.168.0.128"
+ip = "http://192.168.0.129"
 conteudo = os.listdir('C:/Users/gabri/Desktop/Controlid/Ajuda/Integração/Acesso/10mil/pkg')
 baseFotos = []
 nome_numero = 1

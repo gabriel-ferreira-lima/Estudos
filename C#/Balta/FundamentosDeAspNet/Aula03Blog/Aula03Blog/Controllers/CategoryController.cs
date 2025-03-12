@@ -1,10 +1,13 @@
 ﻿using Aula03Blog.Data;
 using Aula03Blog.Extensions;
 using Aula03Blog.Models;
+using Aula03Blog.Services;
 using Aula03Blog.ViewModels;
+using Aula03Blog.ViewModels.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Aula03Blog.Controllers {
     [ApiController]
@@ -13,9 +16,17 @@ namespace Aula03Blog.Controllers {
         
         [HttpGet("v1/categories")]
         public async Task<IActionResult> GetAsync(
-            [FromServices] BlogDataContext context) {
+            [FromServices] BlogDataContext context,
+            [FromServices] IMemoryCache cache,
+            [FromServices] CategoryServices categoryServices) {
+
+
             try {
-                var categories = await context.Categories.ToListAsync();
+                var categories = cache.GetOrCreate("CategoriesCache", entry => {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+                    return categoryServices.GetCategories(context);
+                });
+                
                 return Ok(new ResultViewModel<List<Category>>(categories));
             }
             catch (Exception e) {

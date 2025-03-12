@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Aula03Blog.ViewModels {
+namespace Aula03Blog.ViewModels.Categories {
     public class EditorCategoryViewModel{
 
         [Required (ErrorMessage = "O nome é obrigatório")]

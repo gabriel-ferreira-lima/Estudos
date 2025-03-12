@@ -1,8 +1,11 @@
-﻿using Aula03Blog.Data;
+﻿using System.Text.RegularExpressions;
+using Aula03Blog.Data;
 using Aula03Blog.Extensions;
 using Aula03Blog.Models;
 using Aula03Blog.Services;
 using Aula03Blog.ViewModels;
+using Aula03Blog.ViewModels.Accounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
@@ -24,6 +27,7 @@ namespace Aula03Blog.Controllers {
                 Email = model.Email,
                 PasswordHash = model.Password,
                 Slug = model.Email.Replace("@", "-").Replace(".", "-"),
+                Roles = new List<Role>()
             };
             
             // var password = PasswordGenerator.Generate(25, true, true); //biblioteca open source que gera uma senha forte
@@ -31,6 +35,15 @@ namespace Aula03Blog.Controllers {
                                                                      // fazer o usuario digitar, colocando as regras no RegisterViewModel.cs
 
             try {
+                var role = await context
+                    .Roles
+                    .FirstOrDefaultAsync(x => x.Id == 1);
+                
+                if (role == null) {
+                    return StatusCode(400, new ResultViewModel<string>($"Role não encontrada"));
+                }
+                
+                user.Roles.Add(role);
                 
                 await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
@@ -86,6 +99,44 @@ namespace Aula03Blog.Controllers {
                 return StatusCode(500, new ResultViewModel<string>("05X04 - Falha interna no servidor"));
             }
             
+        }
+
+        [Authorize]
+        [HttpPost("v1/accounts/upload-image")]
+        public async Task<IActionResult> UploadImage(
+            [FromBody] UploadImageViewModel model,
+            [FromServices] BlogDataContext context) {
+            
+            var fileName = $"{Guid.NewGuid().ToString()}.jpg";
+            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(model.Base64Image, "");
+            var bytes = Convert.FromBase64String(data);
+
+            try {
+                await System.IO.File.WriteAllBytesAsync($"wwwroot/images/{fileName}", bytes);
+            }
+            catch (Exception e) {
+                return StatusCode(500, new ResultViewModel<string>("05X04 - Falha interna no servidor"));
+            }
+            
+            var user = await context
+                .Users
+                .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+
+            if (user == null) {
+                return NotFound(new ResultViewModel<User>("Usuario não encontrado"));
+            }
+            
+            user.Image = $"{Configuration.Image}{fileName}";
+
+            try {
+                context.Users.Update(user);
+                context.SaveChanges();
+            }
+            catch (Exception e) {
+                return StatusCode(500, new ResultViewModel<string>("05X04 - Falha interna no servidor"));
+            }
+            
+            return Ok(new ResultViewModel<string>("Imagem alterada com sucesso!", null));
         }
     }
 }

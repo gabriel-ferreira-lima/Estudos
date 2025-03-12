@@ -1,8 +1,6 @@
-from time import sleep
 import requests
 import socket
 import base64
-from logging import exception
 from flask import Flask, request, jsonify, send_file
 app = Flask(__name__)
 
@@ -138,7 +136,10 @@ responseAutorizado = {
         "user_image": True,
         "portal_id": 1,
         "actions": [
-            {"action": "catra", "parameters": "allow=both"}
+            {
+                "action": "door",
+                "parameters": "door=1"
+            }
         ]
     }
 }
@@ -401,5 +402,5 @@ def access_photo():
     return jsonify(), 200
 
 if __name__ == '__main__':
-    InsereDadosDoDispositivo()
+    #InsereDadosDoDispositivo()
     app.run(host='0.0.0.0', port=3035)

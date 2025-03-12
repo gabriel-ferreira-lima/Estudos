@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Aula03Blog.ViewModels;
+namespace Aula03Blog.ViewModels.Accounts;
 
 public class LoginViewModel {
     

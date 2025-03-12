@@ -35,5 +35,5 @@ public class EmailService {
         catch (Exception e) {
             return false;
         }
-    }
+        }
 }

@@ -9,6 +9,7 @@ namespace Aula03Blog.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlServer("Server=localhost,1433;Database=Blog;User ID=sa;Password=Gordaojoga10;Trusted_Connection=False; TrustServerCertificate=True;");
@@ -18,6 +19,7 @@ namespace Aula03Blog.Data
             modelBuilder.ApplyConfiguration(new CategoryMap());
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new PostMap());
+            modelBuilder.ApplyConfiguration(new RoleMap());
         }
     }
 }
