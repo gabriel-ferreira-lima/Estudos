@@ -126,7 +126,7 @@ namespace Aula03Blog.Controllers {
                 return NotFound(new ResultViewModel<User>("Usuario não encontrado"));
             }
             
-            user.Image = $"{Configuration.Image}{fileName}";
+            user.Image = $"{Configuration.ImageDirectory}{fileName}";
 
             try {
                 context.Users.Update(user);

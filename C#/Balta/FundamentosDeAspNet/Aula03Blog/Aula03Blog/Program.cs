@@ -6,6 +6,7 @@ using Aula03Blog.Services;
 using Aula03Blog.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Aula03Blog {
@@ -13,12 +14,15 @@ namespace Aula03Blog {
         public static void Main(string[] args) {
             
             var builder = WebApplication.CreateBuilder(args);
-            ConfigureAuthentication(builder);
-            ConfigureMvc(builder);
+            LoadConfiguration(builder);
             ConfigureServices(builder);
+            ConfigureMvc(builder);
+            ConfigureAuthentication(builder);
+            
+            builder.Services.AddEndpointsApiExplorer(); // faz com que o swagger seja adicionado
+            builder.Services.AddSwaggerGen(); // gera o código da interface do swagger
             
             var app = builder.Build();
-            LoadConfiguration(app);
             
             app.Use(async (context, next) =>
             {
@@ -34,21 +38,38 @@ namespace Aula03Blog {
                 // token a API retorno a mensagem no padrão definitido em resultViewModel
             
             app.UseResponseCompression(); // serve para comprimir as Apis deixando a request mais leve
+            app.UseHttpsRedirection(); // ela permite fazer redirecionamento http para https
             app.UseAuthentication(); // Força meu sistema a usar autenticação
             app.UseAuthorization(); // Força meu sistama a usar autorização
             app.UseStaticFiles(); // Serve para o servidor conseguir renderizar arquivos estaticos (fotos, txt, arquivo JS etc).
             app.MapControllers(); // mapeia meus controlers dentro da pasta Controllers
+            
+            // isso serve para eu alterar algumas informações apenas no ambiente de desenvolvimento
+            if (app.Environment.IsDevelopment()) {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+            
+            
             app.Run();
             
             
             // criei esses métodos para não bagunçar a classe program
-            void LoadConfiguration(WebApplication app) {
-                Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
-                Configuration.ApiKeyName = app.Configuration.GetValue<string>("ApiKeyName");
-                Configuration.ApiKey = app.Configuration.GetValue<string>("ApiKey");
+            void LoadConfiguration(WebApplicationBuilder builder) {
+                Configuration.JwtKey = builder.Configuration.GetValue<string>("JwtKey"); // essa chave será essencial para gerar os tokens nesse
+                                                                                         // caso peguei um guid Guid.NewGuid(); depois transformei
+                                                                                         // ele em base64 o valor da chave esta no appSettings
+                                                                                         
+                
+                                                                                         
+                Configuration.ApiKeyName = builder.Configuration.GetValue<string>("ApiKeyName"); // criando um conceito diferente de criar uma chave além do JWT,
+                                                                                                 // essa aqui não expira nunca ver na pasta attributes e na homeController
+                Configuration.ApiKey = builder.Configuration.GetValue<string>("ApiKey");
+                
+                Configuration.ImageDirectory = builder.Configuration.GetValue<string>("ImageDirectory");
 
                 var smtp = new Configuration.SmtpConfiguration();
-                app.Configuration.GetSection("Smtp").Bind(smtp);
+                builder.Configuration.GetSection("Smtp").Bind(smtp);
                 Configuration.Smtp = smtp;
             }
             void ConfigureAuthentication(WebApplicationBuilder builder) {
@@ -94,7 +115,11 @@ namespace Aula03Blog {
                     }); 
             }
             void ConfigureServices(WebApplicationBuilder builder) {
-                builder.Services.AddDbContext<BlogDataContext>(); // adicionando o banco de dados no aspnet, a vantagem é que eu
+                
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                builder.Services.AddDbContext<BlogDataContext>(options => {
+                    options.UseSqlServer(connectionString);
+                }); // adicionando o banco de dados no aspnet, a vantagem é que eu
                                                                   // nao preciso utilizar o using e abrir uma conexão com o banco
                                                                   // todas as vezes que eu precisar
             
