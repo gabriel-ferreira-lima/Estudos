@@ -156,16 +156,14 @@ responseNaoAutorizado = {
 }
 
 responseTeste = {
-  "result": {
-    "event": 14,
-    "user_id": 0,
-    "user_name": "",
-    "user_image": False,
-    "user_image_hash": "",
-    "portal_id": 1,
-    "message": "",
-    "actions": None
-  }
+    "result":{
+        "event":3,
+        "user_id" : 0,
+        "user_name": "",
+        "user_image":False,
+        "portal_id":0,
+        "actions":[]
+        }
 }
 
 
@@ -203,10 +201,10 @@ def new_user_identified():
 
         if user_id > 0:
             print("Acesso autorizado")
-            return jsonify(responseAutorizado), 200
+            return jsonify(responseTeste), 200
         else:
             print("Acesso negado")
-            return jsonify(responseAutorizado), 200
+            return jsonify(responseTeste), 200
 
     except Exception as e :
         return jsonify({"error": str(e)}), 500

@@ -1,0 +1,75 @@
+.container {
+    border: 1px solid rgb(0, 58, 250);
+    margin: 0 auto;
+    max-width: 420px;
+    
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0 0 0;
+    font-size: 1.25em;
+    font-weight: normal;
+    
+}
+
+
+.item {
+    margin: 5px;
+    background: goldenrod;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+body {
+    font-family: monospace;
+    color: #333;
+    margin: 0px;
+    padding-bottom: 60px;
+} 
+
+.grid {
+    display: grid;
+}
+
+.grid-columns {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-rows {
+    grid-template-rows: 50px 50px 50px;
+}
+
+.grid-areas {
+    grid-template-columns: 30% 60% 10%; /*coluna*/
+    grid-template-rows: 50px 150px 50px; /*linha*/
+    grid-template-areas:
+        "area-1 area-2 area-2"
+        "area-3 area-4 area-5"
+        "area-3 area-6 area-6"
+    ;
+}
+
+.area-1 {
+    grid-area: area-1;
+}
+
+.area-2 {
+    grid-area: area-2;
+}
+
+.area-3 {
+    grid-area: area-3;
+}
+
+.area-4 {
+    grid-area: area-4;
+}
+
+.area-5 {
+    grid-area: area-5;
+}
+
+.area-6 {
+    grid-area: area-6;
+}

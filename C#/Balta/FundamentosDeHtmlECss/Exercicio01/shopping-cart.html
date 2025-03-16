@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de compras</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body>
+    <header>
+        <span>Meu carrinho de compras</span>
+    </header>
+    <main>
+        <div class="page-title">Pedido#12345</div>
+        <div class="content">
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                            <th>Total</th>
+                            <th>ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="product">
+                                    <img src="Images/teclado-mecanico.jpg" alt="teclado-mecanico" height="100" width="100">
+                                    <div class="info">
+                                        <div class="name">Teclado-mecanico</div>
+                                        <div class="category">Periféricos</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>R$ 650,00</td>
+                            <td>
+                                <div class="quantity">
+                                    <button>
+                                        <i class="bx bx-minus"></i>
+                                    </button>
+                                    <span>2</span>
+                                    <button>
+                                        <i class="bx bx-plus"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>R$ 1300,00</td>
+                            <td>
+                                <div class="remove">
+                                    <button class="remove">
+                                        <i class="bx bx-x"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product">
+                                    <img src="Images/cadeira-gamer.jpg" alt="cadeira-gamer" height="100" width="100">
+                                    <div class="info">
+                                        <div class="name">cadeira gamer</div>
+                                        <div class="category">Acessórios</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>R$ 500,00</td>
+                            <td>
+                                <div class="quantity">
+                                    <button>
+                                        <i class="bx bx-minus"></i>
+                                    </button>
+                                    <span>1</span>
+                                    <button>
+                                        <i class="bx bx-plus"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>R$ 500,00</td>
+                            <td>
+                                <div class="remove">
+                                    <button class="remove">
+                                        <i class="bx bx-x"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product">
+                                    <img src="Images/headset.jpg" alt="headset" height="100" width="100">
+                                    <div class="info">
+                                        <div class="name">Head Set</div>
+                                        <div class="category">Periféricos</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>R$ 350,00</td>
+                            <td>
+                                <div class="quantity">
+                                    <button>
+                                        <i class="bx bx-minus"></i>
+                                    </button>
+                                    <span>2</span>
+                                    <button>
+                                        <i class="bx bx-plus"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>R$ 700,00</td>
+                            <td>
+                                <div class="remove">
+                                    <button class="remove">
+                                        <i class="bx bx-x"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </section>
+            <aside>
+                <div class="box">
+                    <header>Resumo da Compra</header>
+                    <div class="details">
+                        <div>
+                            <span>Sub-total</span>
+                            <span>R$ 418,00</span>
+                        </div>
+                        <div>
+                            <span>Frete</span>
+                            <span>gratuito</span>
+                        </div>
+                        <div>
+                            <button>
+                                Adicionar cupom de desconto
+                                <i class="bx bx-right-arrow-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <footer>
+                        <span>Total</span>
+                        <span>R$ 418,00</span>
+                    </footer>
+                </div>
+                <button>Finalizar a Compra</button>
+            </aside>
+        </div>
+    </main>
+</body>
+</html>

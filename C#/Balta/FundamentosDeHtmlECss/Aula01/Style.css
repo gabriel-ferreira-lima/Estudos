@@ -1,0 +1,76 @@
+/* seletores 
+    1) classe (.) posso usar quantas vezes for necessário
+    2) Id (#) só pode usar uma unica vez no código
+    3) p h1 Altera todos as palavras reservadas 
+
+*/
+
+/*
+    medidas relativas - conforme o tamanho do dispositivo
+    %
+    vw view width
+    vh view height
+    em
+    rem
+
+    medidas absolutas - não mudam 
+    px
+
+*/
+
+.container {
+    border: 1px solid rgb(0, 58, 250);
+    margin: 0 auto;
+    max-width: 420px;
+    
+}
+
+.flex {
+    display: flex;
+
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+
+}
+
+.flex-direction {
+    flex-direction: row;
+}
+
+.flex-justify {
+    justify-content:space-around;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.item-align {
+    align-items: flex-start;
+}
+
+/*Flex item*/
+
+.item {
+    flex: 1;
+    margin: 5px;
+    padding: 0 10px;
+    background: yellowgreen;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0 0 0;
+    font-size: 1.25em;
+    font-weight: normal;
+    
+}
+
+body {
+    font-family: monospace;
+    color: #333;
+} 
