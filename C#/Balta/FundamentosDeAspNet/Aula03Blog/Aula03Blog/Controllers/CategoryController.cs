@@ -18,12 +18,12 @@ namespace Aula03Blog.Controllers {
         public async Task<IActionResult> GetAsync(
             [FromServices] BlogDataContext context,
             [FromServices] IMemoryCache cache,
-            [FromServices] CategoryServices categoryServices) {
+            [FromServices] CategoryCacheServices categoryCacheServices) {
 
             try {
                 var categories = cache.GetOrCreate("CategoriesCache", entry => {
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
-                    return categoryServices.GetCategories(context);
+                    return categoryCacheServices.GetCategories(context);
                 });
                 
                 return Ok(new ResultViewModel<List<Category>>(categories));

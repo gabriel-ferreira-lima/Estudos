@@ -129,7 +129,7 @@ namespace Aula03Blog {
                 //builder.Services.AddSingleton<TokenService>(); // dura até o encerramento do APP, cuidado ao usar esse
                 
                 builder.Services.AddTransient<EmailService>();
-                builder.Services.AddTransient<CategoryServices>();
+                builder.Services.AddTransient<CategoryCacheServices>();
             }
         }
     }
