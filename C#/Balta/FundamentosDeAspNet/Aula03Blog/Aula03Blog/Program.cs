@@ -89,7 +89,7 @@ namespace Aula03Blog {
                 });
             }
             void ConfigureMvc(WebApplicationBuilder builder) {
-                builder.Services.AddMemoryCache();
+                builder.Services.AddMemoryCache(); // olha a API getlist do category controller
                 builder.Services.AddResponseCompression(option => {
                     //option.Providers.Add<BrotliCompressionProvider>();
                     option.EnableForHttps = true;

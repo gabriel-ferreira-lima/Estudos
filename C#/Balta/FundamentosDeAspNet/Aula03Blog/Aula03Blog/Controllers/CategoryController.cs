@@ -20,7 +20,6 @@ namespace Aula03Blog.Controllers {
             [FromServices] IMemoryCache cache,
             [FromServices] CategoryServices categoryServices) {
 
-
             try {
                 var categories = cache.GetOrCreate("CategoriesCache", entry => {
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
