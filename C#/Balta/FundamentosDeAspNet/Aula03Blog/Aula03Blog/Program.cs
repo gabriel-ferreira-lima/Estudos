@@ -41,7 +41,7 @@ namespace Aula03Blog {
             app.UseHttpsRedirection(); // ela permite fazer redirecionamento http para https
             app.UseAuthentication(); // Força meu sistema a usar autenticação
             app.UseAuthorization(); // Força meu sistama a usar autorização
-            app.UseStaticFiles(); // Serve para o servidor conseguir renderizar arquivos estaticos (fotos, txt, arquivo JS etc).
+            app.UseStaticFiles(); // Serve para o servidor conseguir renderizar arquivos estaticos (fotos, txt, arquivo JS, css, html e etc).
             app.MapControllers(); // mapeia meus controlers dentro da pasta Controllers
             
             // isso serve para eu alterar algumas informações apenas no ambiente de desenvolvimento
@@ -49,13 +49,14 @@ namespace Aula03Blog {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
-            
+
+
             app.Run();
             
             
             // criei esses métodos para não bagunçar a classe program
             void LoadConfiguration(WebApplicationBuilder builder) {
+                // esse método esta pegando os valores definidos em appsettings e setando os valores dentro da classe configuration.cs
                 Configuration.JwtKey = builder.Configuration.GetValue<string>("JwtKey"); // essa chave será essencial para gerar os tokens nesse
                                                                                          // caso peguei um guid Guid.NewGuid(); depois transformei
                                                                                          // ele em base64 o valor da chave esta no appSettings
@@ -98,7 +99,7 @@ namespace Aula03Blog {
                 });
                 builder.Services.Configure<GzipCompressionProviderOptions>(options => {
                     options.Level = CompressionLevel.Optimal;
-                });
+                }); // isso configura que eu quero que minhas APIs sejam zipadas, para deixar a requisição mais leve
                 builder
                     .Services
                     .AddControllers()

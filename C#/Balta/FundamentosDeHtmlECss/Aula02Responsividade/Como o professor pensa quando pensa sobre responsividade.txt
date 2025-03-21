@@ -1,0 +1,9 @@
+Como o professor pensa quando pensa em responsividade, por exemplo para fonte sempre usar rem, ao invés de px ou em e etc.
+
+font-syze : rem
+margins e paddings : em 
+widths : em ou %
+
+
+E o pixel ?
+apenas em pontos fixos, por exemplo imagens que fica em um catinho da tela que não vai interferir em nada idependente do dispositivo móvel usado. 
