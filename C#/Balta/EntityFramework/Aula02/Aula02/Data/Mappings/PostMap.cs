@@ -33,13 +33,13 @@ namespace Aula02.Data.Mappings {
                 .IsUnique();
 
             //relacionamentos
-            // 1:1
+            // 1:N
             builder.HasOne(x => x.Author) // relacionamento 1:1
                 .WithMany(x => x.Posts) // relacionamento 1:N
                 .HasConstraintName("FK_Post_Author") // Informa o nome da constratint 
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // 1:N
+            // N:N
             builder.HasMany(x => x.Tags)
                 .WithMany(x => x.Posts)
                 .UsingEntity<Dictionary<string, object>>(

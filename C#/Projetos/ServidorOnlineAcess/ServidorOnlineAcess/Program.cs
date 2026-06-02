@@ -13,34 +13,39 @@ app.MapPost("/device_is_alive.fcgi", () => {
     return Task.FromResult("");
 });
 
-app.MapPost("/new_user_identified.fcgi", (HttpContext context, [FromForm] int user_id, [FromForm] string user_name) => {
-    if (user_id > 0) {
+app.MapPost("/new_user_identified.fcgi", (HttpContext context, [FromForm] long user_id, [FromForm] string user_name) => {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"[{DateTime.Now}] API New_user_identified - ");
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine($"usuario identificado = teste");
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write($"[{DateTime.Now}] API New_user_identified - ");
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"usuario identificado = {user_name}");
-
-        return Results.Json(new {
-            result = new {
-                @event = 7,
-                user_id = user_id,
-                user_name = user_name,
-                user_image = true,
-                portal_id = 1,
-                actions = new[] { new { action = "sec_box", parameters = "id=65793, reason=1" } }
-
-            }
-        });
-    }
     return Results.Json(new {
         result = new {
-            @event = 3,
-            user_id = 0,
-            user_name = "",
+            @event = 7,
+            user_id,
+            user_name = "teste",
+            user_image = true,
+            portal_id = 1,
+            actions = new[] { new { action = "catra", parameters = "allow=both" } }
+        }
+    });
+}).DisableAntiforgery(); 
+
+app.MapPost("/new_card.fcgi", (HttpContext context, [FromForm] long card_value) => {
+
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"[{DateTime.Now}] API New_Card - ");
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine($"usuario identificado = teste");
+
+    return Results.Json(new {
+        result = new {
+            @event = 7,
+            user_id = 1,
+            user_name = "teste",
             user_image = false,
             portal_id = 1,
-            actions = new object[] { }
+           actions = new[] { new { action = "sec_box", parameters = "id=65793, reason=1" } }
 
         }
     });
@@ -119,12 +124,20 @@ app.MapPost("/api/notifications/operation_mode", ([FromBody] object response) =>
 });
 
 app.MapPost("/api/notifications/device_is_alive", ([FromBody] object response) => {
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.Write($"[{DateTime.Now}] API device_is_alive - ");
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine(response);
-    return Task.FromResult("");
+
+    var pushtime = DateTime.Now.AddMinutes(1);
+
+    if (pushtime > Configuration.PushExample) {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write($"[{DateTime.Now}] API device_is_alive (MONITOR)- ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine(response);
+        return Results.Json("");
+
+    }
+    return Results.Json("");
 });
+
 
 app.MapPost("/api/notifications/door", ([FromBody] object response) => {
     Console.ForegroundColor = ConsoleColor.Green;
@@ -150,10 +163,62 @@ app.MapPost("/api/notifications/access_photo", ([FromBody] object response) => {
     return Task.FromResult("");
 });
 
+/*
+app.MapGet("/push", () => {
+
+    var pushtime = DateTime.Now.AddMinutes(1);
+    //var horarioAtual = DateTime.Now;
+
+    if (pushtime > Configuration.PushExample) {
+        Configuration.PushExample = DateTime.Now.AddMinutes(2);
+
+        return Results.Json(new {
+            verb = "POST",
+            endpoint = "system_information",
+            contentType = "application/json",
+            body = new { }
+        });
+    }
+
+    return Results.Json(new { });
+});
+
+
+int cont = 0;
+
+app.MapGet("/push", () => {
+
+    if (cont == 5) {
+        cont = 0;
+        return Results.Ok(new {
+            verb = "POST",
+            endpoint = "system_information",
+            contentType = "application/json",
+            body = new { }
+        });
+    }
+
+    cont++;
+    return Results.Ok(new {});
+});
+
+
+app.MapPost("/result", ([FromBody] object response) => {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"[{DateTime.Now}] API Result - ");
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine(response);
+    return Task.FromResult("");
+});
+*/
 
 Configuration.Initialize(builder.Configuration);
 
 await Screen.Load();
 Console.Clear();
+
+Console.ForegroundColor = ConsoleColor.Yellow;
+Console.WriteLine("Servidor Iniciado\r\n");
+Console.ForegroundColor = ConsoleColor.White;
 
 app.Run();

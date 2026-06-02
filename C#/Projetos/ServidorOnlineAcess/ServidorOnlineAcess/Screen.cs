@@ -6,7 +6,7 @@
             Console.WriteLine("Configurador Equipamento\r\n");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Deseja configurar o equipamento ? (1 Sim/ 2 Não): ");
-            int option = int.Parse(Console.ReadLine());
+            int option = int.Parse(Console.ReadLine()!);
             switch (option) {
                 case 1:
                     await ConfigureDevice();
@@ -30,11 +30,11 @@
             Console.WriteLine("Configuração do Equipamento\r\n");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o IP do equipamento: ");
-            Configuration.IpDevice = Console.ReadLine();
+            Configuration.IpDevice = Console.ReadLine()!;
             Console.Write("Digite o login do equipamento: ");
-            Configuration.LoginDevice = Console.ReadLine();
+            Configuration.LoginDevice = Console.ReadLine()!;
             Console.Write("Digite a senha do equipamento: ");
-            Configuration.PasswordDevice = Console.ReadLine();
+            Configuration.PasswordDevice = Console.ReadLine()!;
 
             var a = new Funcionalidades();
             var loginResult = await a.FazerLogin();
@@ -56,7 +56,7 @@
             Console.WriteLine("Configuração do Equipamento\r\n");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Deseja configurar o equipamento para modo online ? (1 Sim/ 2 Não): ");
-            int onlineOption = int.Parse(Console.ReadLine());
+            int onlineOption = int.Parse(Console.ReadLine()!);
             switch (onlineOption) {
                 case 1:
                     await Funcionalidades.ConfiguraMonitor();
@@ -79,7 +79,7 @@
         public static async Task CreateUser() {
             Console.Clear();
             Console.Write("1 Facial / 2 Digital / 3 Não informar: ");
-            int option = int.Parse(Console.ReadLine());
+            int option = int.Parse(Console.ReadLine()!);
             switch (option) {
                 case 1:
                     await Funcionalidades.CadastraUsuario();

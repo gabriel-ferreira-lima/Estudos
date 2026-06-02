@@ -38,7 +38,7 @@ namespace Aula02.Data.Mappings {
                 .IsUnique();
 
             // relacionamento
-            // 1:N
+            // N:N
             builder
                 .HasMany(x => x.Roles)
                 .WithMany(x => x.Users)

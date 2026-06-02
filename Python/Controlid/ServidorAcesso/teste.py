@@ -67,7 +67,7 @@ def Criaservidor(ip, sessao):
         "object": "devices",
         "values": [
             {
-                "id" : -2,
+                "id" : -3,
                 "name": "Flask Server",
                 "ip": f"{ipServidor}:3035"
             }
@@ -81,7 +81,7 @@ def Criaservidor(ip, sessao):
         },
         "online_client": {
           "extract_template": "1",
-          "server_id" : "-2"
+          "server_id" : "-3"
         }
     })
 
@@ -201,7 +201,7 @@ def new_user_identified():
 
         if user_id > 0:
             print("Acesso autorizado")
-            return jsonify(responseTeste), 200
+            return jsonify(responseAutorizado), 200
         else:
             print("Acesso negado")
             return jsonify(responseTeste), 200

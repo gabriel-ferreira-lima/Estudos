@@ -11,7 +11,7 @@ namespace Aula03Blog.Controllers {
         public IActionResult Get() {
             return Ok();
         }
-        
+
         // criei esse método apenas para testar o atributo Apikey que eu criei
         [HttpGet("2")]
         [ApiKey]

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="UtmBuilder.Core.Tests/UtmBuilder.Core.Tests.csproj" />
+  <Project Path="UtmBuilder.Core/UtmBuilder.Core.csproj" />
+</Solution>

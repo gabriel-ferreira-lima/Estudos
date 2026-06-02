@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="D:/estudos/C#/Balta/TopicosAvancados/RefatorandoParaTestesDeUnidade/Store.domain/Store.Domain.csproj" />
+  <Project Path="Store.Tests/Store.Tests.csproj" Id="ea09db61-b702-4ca0-a4ff-a5d51a08b6ca" />
+</Solution>

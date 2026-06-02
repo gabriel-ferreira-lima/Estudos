@@ -8,7 +8,8 @@ namespace ServidorOnlineAcess {
         public async Task<string> FazerLogin() {
             using (var client = new HttpClient()) {
 
-                var url = $"http://{Configuration.IpDevice}/login.fcgi";
+                var url = $"http://{Configuration.IpDevice}/hidlogin.fcgi";                
+
                 var requestData = new {
                     login = Configuration.LoginDevice,
                     password = Configuration.PasswordDevice
@@ -24,10 +25,10 @@ namespace ServidorOnlineAcess {
                     using var jsonDoc = JsonDocument.Parse(responseBody);
                     var sessionValue = jsonDoc.RootElement.GetProperty("session").GetString();
 
-                    Configuration.TokenDevice = sessionValue;
+                    Configuration.TokenDevice = sessionValue!;
                     return response.StatusCode.ToString();
                 }
-                catch (Exception e) {
+                catch (Exception) {
                     return StatusCodes.Status500InternalServerError.ToString();
                 }
             }
@@ -41,7 +42,7 @@ namespace ServidorOnlineAcess {
                     @object = "users",
                     values = new[] { new {
                             id = 1000,
-                            name = "Douglas Miguel",
+                            name = "teste",
                             registration = "",
                             password = "",
                             salt = ""
@@ -60,7 +61,7 @@ namespace ServidorOnlineAcess {
                     var response = await client.PostAsync(url, content);
                     var responseBody = await response.Content.ReadAsStringAsync();
                 }
-                catch (Exception e) {
+                catch (Exception) {
                 }
             }
         }
@@ -83,7 +84,7 @@ namespace ServidorOnlineAcess {
                     var response = await client.PostAsync(url, content);
                     var responseBody = await response.Content.ReadAsStringAsync();
                 }
-                catch (Exception e) {
+                catch (Exception) {
 
                 }
 
@@ -108,7 +109,7 @@ namespace ServidorOnlineAcess {
                     var response = await client.PostAsync(url, content);
                     var responseBody = await response.Content.ReadAsStringAsync();
                 }
-                catch (Exception e) {
+                catch (Exception) {
 
                 }
 
@@ -141,24 +142,24 @@ namespace ServidorOnlineAcess {
                     var responseBody = await response.Content.ReadAsStringAsync();
 
                 }
-                catch (Exception e) {
+                catch (Exception) {
                 }
             }
         }
 
         public static async Task ConfiguraServidor() {
             using (var client = new HttpClient()) {
-
+                 
                 var url = $"http://{Configuration.IpDevice}/set_configuration.fcgi?session={Configuration.TokenDevice}";
                 var requestData = new {
                     general = new {
-                        online = "1",
-                        local_identification = "1"
+                        online = "1"
+                        //local_identification = "1"
                     },
                     online_client = new {
-                        server_id = "-2",
-                        extract_template = "0",
-                        max_request_attempts = "3"
+                        server_id = "-2"
+                        //extract_template = "0",
+                        //max_request_attempts = "3"
                     }
                 };
 
@@ -170,7 +171,7 @@ namespace ServidorOnlineAcess {
                     var responseBody = await response.Content.ReadAsStringAsync();
 
                 }
-                catch (Exception e) {
+                catch (Exception) {
                 }
             }
         }
@@ -197,10 +198,9 @@ namespace ServidorOnlineAcess {
                     var response = await client.PostAsync(url, content);
                     var requestBody = await response.Content.ReadAsStringAsync();
                 }
-                catch (Exception e) {
+                catch (Exception) {
                 }
             }
         }
-
     }
 }
