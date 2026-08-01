@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ServidorOnlineAcess;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +27,32 @@ app.MapPost("/new_user_identified.fcgi", (HttpContext context, [FromForm] long u
             user_name = "teste",
             user_image = true,
             portal_id = 1,
-            actions = new[] { new { action = "catra", parameters = "allow=both" } }
+            //duress = 0,
+            actions = new[] { new { action = "sec_box", parameters = "id=65793,reason=3" } }
+        }
+        });
+}).DisableAntiforgery();
+
+
+
+app.MapPost("/new_face_capture.fcgi", (HttpContext context, [FromBody] JsonElement  json) => {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"[{DateTime.Now}] API New_user_identified - ");
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine(json);
+
+    return Results.Json(new {
+        result = new {
+            @event = 7,
+            user_id = 1,
+            user_name = "teste",
+            user_image = true,
+            portal_id = 1,
+            //duress = 0,
+            actions = new[] { new { action = "sec_box", parameters = "id=65793,reason=3" } }
         }
     });
-}).DisableAntiforgery(); 
+}).DisableAntiforgery();
 
 app.MapPost("/new_card.fcgi", (HttpContext context, [FromForm] long card_value) => {
 
@@ -51,9 +74,26 @@ app.MapPost("/new_card.fcgi", (HttpContext context, [FromForm] long card_value) 
     });
 }).DisableAntiforgery();
 
-app.MapPost("/api/notifications/dao", ([FromBody] object response) => {
+app.MapPost("/api/notifications/dao", ([FromBody] JsonElement response) => {
     Console.ForegroundColor = ConsoleColor.Green;
     Console.Write($"[{DateTime.Now}] API DAO - ");
+    Console.ForegroundColor = ConsoleColor.White;
+
+    Console.WriteLine(response);
+    return Task.FromResult("");
+});
+
+app.MapPost("/face_create.fcgi", ([FromBody] object response) => {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"[{DateTime.Now}] API face_create - ");
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine(response);
+    return Task.FromResult("");
+});
+
+app.MapPost("/face_template_create.fcgi", ([FromBody] object response) => {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"[{DateTime.Now}] API face_template_create - ");
     Console.ForegroundColor = ConsoleColor.White;
     Console.WriteLine(response);
     return Task.FromResult("");
@@ -127,15 +167,11 @@ app.MapPost("/api/notifications/device_is_alive", ([FromBody] object response) =
 
     var pushtime = DateTime.Now.AddMinutes(1);
 
-    if (pushtime > Configuration.PushExample) {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write($"[{DateTime.Now}] API device_is_alive (MONITOR)- ");
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(response);
         return Results.Json("");
-
-    }
-    return Results.Json("");
 });
 
 
@@ -163,27 +199,6 @@ app.MapPost("/api/notifications/access_photo", ([FromBody] object response) => {
     return Task.FromResult("");
 });
 
-/*
-app.MapGet("/push", () => {
-
-    var pushtime = DateTime.Now.AddMinutes(1);
-    //var horarioAtual = DateTime.Now;
-
-    if (pushtime > Configuration.PushExample) {
-        Configuration.PushExample = DateTime.Now.AddMinutes(2);
-
-        return Results.Json(new {
-            verb = "POST",
-            endpoint = "system_information",
-            contentType = "application/json",
-            body = new { }
-        });
-    }
-
-    return Results.Json(new { });
-});
-
-
 int cont = 0;
 
 app.MapGet("/push", () => {
@@ -210,7 +225,7 @@ app.MapPost("/result", ([FromBody] object response) => {
     Console.WriteLine(response);
     return Task.FromResult("");
 });
-*/
+
 
 Configuration.Initialize(builder.Configuration);
 

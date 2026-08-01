@@ -1,0 +1,81 @@
+﻿using JwtStore.Core.AccountContext.ValueObjects;
+using JwtStore.Core.Contexts.AccountContext.Entities;
+using JwtStore.Core.Contexts.AccountContext.UseCases.Create.Contracts;
+using JwtStore.Core.Contexts.AccountContext.ValueObjects;
+using MediatR;
+
+namespace JwtStore.Core.Contexts.AccountContext.UseCases.Create {
+    public class Handler : IRequestHandler<Request, Response>{
+
+        private readonly IRepository _repository;
+        private readonly IService _service;
+
+        public Handler(IRepository repository, IService service) {
+            _repository = repository;
+            _service = service;
+        }
+
+        public async Task<Response> Handle(Request request, CancellationToken cancellationToken) {
+            #region 01 - Valida a requisição
+
+            try {
+                var res = Specification.Ensure(request);
+                if (!res.IsValid) {
+                    return new Response("Requsição Inválida", 400, res.Notifications);
+                }
+            }
+            catch (Exception ex) {
+                return new Response("Não foi possivel validar sua requisição", 500);
+            }
+
+            #endregion
+
+            #region 02 - Gerar os objetos
+            Email email;
+            Password password;
+            User user;
+
+            try {
+                email = new Email(request.Email);
+                password = new Password(request.Password);
+                user = new User(request.Name, email, password);
+            }
+            catch (Exception e) {
+                return new Response(e.Message, 400);
+            }
+            #endregion
+
+            # region 03 - Verificar se o usuario existe no banco
+            try {
+                var exists = await _repository.AnyAsync(request.Email, cancellationToken);
+                if (exists) {
+                    return new Response("Este E-mail já esta em uso", 400);
+                }
+            }
+            catch (Exception e) {
+                return new Response("Falha ao verificar E-mail cadastrado", 500);
+            }
+            #endregion
+
+            #region 04 - persistir os dados
+            try {
+                await _repository.SaveAsync(user, cancellationToken);
+            }
+            catch (Exception e) {
+                return new Response("Falha ao persistir dados", 500);
+            }
+            #endregion
+
+            #region 05 - Enviar E-mail de ativação
+            try {
+                await _service.SendVerificationEmailAsync(user, cancellationToken);
+            }
+            catch (Exception e) {
+                // nada a fazer
+            }
+            #endregion
+
+            return new Response("Conta criada", new ResponseData(user.Id, user.Name, user.Email));
+        }
+    }
+}

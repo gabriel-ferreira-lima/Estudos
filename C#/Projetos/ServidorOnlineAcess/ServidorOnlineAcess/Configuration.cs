@@ -7,7 +7,6 @@ namespace ServidorOnlineAcess {
         public static string LoginDevice { get; set; } = "admin";
         public static string PasswordDevice { get; set; } = "admin";
         public static string TokenDevice { get; set; } = null!;
-        public static DateTime PushExample { get; set; } = DateTime.Now;
 
         public static string IpServer { get; set; } = Dns.GetHostAddresses(Dns.GetHostName())
                   .FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?

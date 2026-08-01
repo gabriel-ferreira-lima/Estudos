@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="user.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="11494059.ico" />
   </ItemGroup>
 
