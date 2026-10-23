@@ -1,9 +1,6 @@
 ﻿using JwtStore.Core.Contexts.AccountContext.Entities;
 using JwtStore.Core.Contexts.AccountContext.UseCases.Authenticate.Contracts;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JwtStore.Core.Contexts.AccountContext.UseCases.Authenticate {
     public class Handler : IRequestHandler<Request, Response> {
